@@ -1,0 +1,28 @@
+﻿<Window x:Class="LengSchool11.Windows.ServiceList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LengSchool11.Windows"
+        mc:Ignorable="d"
+        Title="ServiceList" Height="450" Width="800" MinHeight="450" MinWidth="800" Icon="/Resourses/Icon/school_logo.png">
+    <Grid>
+        <Grid Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="24*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="33*"></RowDefinition>
+                <RowDefinition Height="36*"></RowDefinition>
+                <RowDefinition Height="334*"/>
+                <RowDefinition Height="31*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Background="#04A0FF" Height="auto" Width="800" Grid.ColumnSpan="2" HorizontalAlignment="Right"/>
+            <Image Margin="5" Source="/Resourses/Icon/school_logo.png"/>
+            <Frame Grid.Row="1" x:Name="frame" Height="auto" Width="auto" LoadCompleted="frame_LoadCompleted" Margin="0,1,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
+
+            </Frame>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,105 @@
+﻿<Page x:Class="LengSchool11.Pages.ClientList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:LengSchool11.Pages"
+      xmlns:local1="clr-namespace:LengSchool11.Classes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ClientList">
+
+    <Page.Resources>
+        <local1:DateTimeToVisibilityConverter x:Key="DateTimeToVisibilityConverter"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="120*"/>
+            <ColumnDefinition Width="120*"/>
+            <ColumnDefinition Width="120*"/>
+
+            <ColumnDefinition Width="47*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="41*"/>
+            <RowDefinition Height="352*"/>
+            <RowDefinition Height="57*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="16" VerticalAlignment="Center" Width="116">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="ДР в этом месяце "/>
+            <CheckBox x:Name="checkDataBH" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="checkDataBH_Checked" Unchecked="checkDataBH_Unchecked"/>
+        </StackPanel>
+        <ComboBox x:Name="sortByParametrs" Grid.Column="1" Margin="5,5,5,5" SelectedIndex="0" VerticalContentAlignment="Center" SelectionChanged="sortByParametrs_SelectionChanged"/>
+        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" Margin="0,0,0,0">
+            <ComboBox x:Name="sortByGender"  Width="auto" Margin="5,5,5,5" SelectedIndex="0" VerticalContentAlignment="Center" SelectionChanged="sortByGender_SelectionChanged" />
+            <ComboBox x:Name="sortByCount" Width="auto" Margin="5,5,5,5" SelectedIndex="0" VerticalContentAlignment="Center" SelectionChanged="sortByCount_SelectionChanged"/>
+        </StackPanel>
+        <TextBox x:Name ="FindClient" Grid.Column="3" VerticalAlignment="Center" Margin="5, 0, 5, 0" BorderBrush="Black" Height="22" TextChanged="FindClient_TextChanged"></TextBox>
+
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="CountRow" Text="0" Visibility="Visible"/>
+            <TextBlock Text=" из "/>
+            <TextBlock x:Name="AllCountRow" Text="0" Visibility="Visible"/>
+        </StackPanel>
+
+        <ListView x:Name="DataClientList" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=ID}" Width="50"/>
+                        <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Path=FirstName}"/>
+                        <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Path=LastName}"/>
+                        <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Path=Patronymic}"/>
+                        <GridViewColumn Header="День рождение" DisplayMemberBinding="{Binding Path=Birthday}"/>
+                        <GridViewColumn Header="Дата регистрации" DisplayMemberBinding="{Binding Path=RegistrationDate}"/>
+                        <GridViewColumn Header="Дата последнего посещения">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LastService, Converter={local1:DateTimeToVisibilityConverter}}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Количество посещений" DisplayMemberBinding="{Binding Path=CountService}"/>
+                        <GridViewColumn Header="E-mail" DisplayMemberBinding="{Binding Path=Email}"/>
+                        <GridViewColumn Header="Телефонный номер" DisplayMemberBinding="{Binding Path=Phone, StringFormat= +{0}}"/>
+                        <GridViewColumn Header="Пол" DisplayMemberBinding="{Binding Path=GetGender}"/>
+                        <GridViewColumn Header="Фото" DisplayMemberBinding="{Binding Path=PhotoPath}"/>
+                        <GridViewColumn Header="Список тегов" Width="Auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ItemsControl ItemsSource="{Binding Tags}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Title, StringFormat='\- {0}'}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{Binding Background}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="BtnOpenServices" Header="Список посещений" Click="BtnOpenServices_Click" />
+                    <MenuItem x:Name="EditButton" Header="Изменить клиента" Click="EditButton_Click"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+
+        </ListView>
+
+        <StackPanel  Grid.Column="3" Grid.Row="2" Orientation="Horizontal" Margin="152,0,19,0" Grid.ColumnSpan="2">
+            <Button x:Name="back" Content="&lt;" Click="back_Click" IsEnabled="False" Height="30" Width="20"></Button>
+            <StackPanel x:Name="pagin" Orientation="Horizontal" HorizontalAlignment="Stretch" Width="auto"></StackPanel>
+            <Button x:Name="forward" Content="&gt;" Click="forward_Click" Height="30" Width="20"></Button>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="1" Width="330" Grid.ColumnSpan="3" Margin="70,0,0,0">
+            <Button x:Name="DeleteClient" Grid.Column="1" Grid.Row="2" Margin="5" Height="30" Background="#04A0FF"  Foreground="White" Cursor="Hand" Width="100" Content="Удалить" Click="DeleteClient_Click"/>
+            <Button x:Name="AddClient" Grid.Column="2" Grid.Row="2" Margin="5" Height="30" Background="#04A0FF"  Foreground="White" Cursor="Hand" Width="100" Content="Добавить" Click="AddClient_Click"/>
+            <Button x:Name="UpdateClient" Grid.Column="3" Grid.Row="2" Margin="5" Height="30" Background="#04A0FF"  Foreground="White" Cursor="Hand" Width="100" Content="Обновить" Click="UpdateClient_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

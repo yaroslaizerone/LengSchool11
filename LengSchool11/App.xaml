@@ -1,0 +1,18 @@
+﻿<Application x:Class="LengSchool11.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LengSchool11"
+             StartupUri="Windows/MainWindow.xaml">
+    <Application.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="BorderBrush" Value="White" />
+            <Setter Property="Background" Value="#FF04A0FF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontFamily" Value="Comic Sans MS" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Comic Sans MS" />
+        </Style>
+    </Application.Resources>
+</Application>
