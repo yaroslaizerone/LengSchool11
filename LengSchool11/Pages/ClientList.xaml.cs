@@ -30,7 +30,7 @@ namespace LengSchool11.Pages
         }
 
         public string[] FilterList { get; set; } =
-       {
+        {
             "Все",
             "Мужчины",
             "Женщины"

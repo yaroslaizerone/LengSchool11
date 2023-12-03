@@ -20,6 +20,14 @@ namespace LengSchool11.Windows
         private SchoolEntities db;
         Client currentClient = new Client();
         private ClientList clientList;
+
+        public string[] StaticTag { get; set; } =
+       {
+            "В процессе",
+            "Завершённый",
+            "Начинается"
+        };
+
         public WorkWithClient(Client currentClient, SchoolEntities db, ClientList clientPage)
         {
             InitializeComponent();
@@ -44,12 +52,44 @@ namespace LengSchool11.Windows
                 this.Title = "Добавление инфомрмации о клиенте";
             }
             DataContext = client;
-
+            Static_tag.ItemsSource = StaticTag; 
         }
 
         private void btnAddClient_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                StringBuilder errors = new StringBuilder();
+                Errors(cmbGender.SelectedItem == null, errors, "Выберите пол клиента!");
+                Errors(tbFirstName.Text.Count() > 50, errors, "Фамилия не может быть длиннее 50 символов!");
+                Errors(tbLastName.Text.Count() > 50, errors, "Имя не может быть длиннее 50 символов!");
+                Errors(tbPatronymic.Text.Count() > 50, errors, "Отчество не может быть длиннее 50 символов!");
+                Errors(ValidatorExtensions.IsValidEmailAddress(tbEmail.Text), errors, "Email адрес не действителен");
+                Errors(tbFirstName.Text == ""
+                    || tbLastName.Text == ""
+                    || tbPhone.Text == "", errors, "Не заполнена важная ифнормация!");
+                if (errors.Length > 0)
+                {
+                    MessageBox.Show(errors.ToString());
+                    return;
+                }
+                if (currentClient == null)
+                {
+                    client.RegistrationDate = DateTime.Now;
+                    RefrData();
+                    db.Client.Add(client);
+                    SaveInDB("Добавление информации о клиенте завершено");
+                }
+                else
+                {
+                    RefrData();
+                    SaveInDB("Обновление информации о клиенте завершено");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void btnEnterImage_Click(object sender, RoutedEventArgs e)
@@ -159,6 +199,19 @@ namespace LengSchool11.Windows
             }
         }
 
+        private void RefrData()
+        {
+            client.Birthday = (DateTime)dpBirthDate.SelectedDate;
+            client.GenderCode = cmbGender.SelectedIndex + 1;
+        }
+
+        private void SaveInDB(string text)
+        {
+            db.SaveChanges();
+            MessageBox.Show(text, "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
+        }
+
         private void btnDelTag_Click(object sender, RoutedEventArgs e)
         {
             int count = LViewTags.SelectedItems.Count;
@@ -227,6 +280,51 @@ namespace LengSchool11.Windows
         private void tbFirstName_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             e.Handled = !ValidatorExtensions.IsValidFIO(e.Text);
+        }
+
+        private void Static_tag_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            try
+            {
+                string TagName = "";
+                string TagColor = "";
+
+                switch (Static_tag.SelectedIndex)
+                {
+                    case 0:
+                        TagName = "В процессе";
+                        TagColor = "FFFF00";
+                        break;
+                    case 1:
+                        TagName = "Завершённый";
+                        TagColor = "FF0000";
+                        break;
+                    case 2:
+                        TagName = "Начинается";
+                        TagColor = "1E90FF";
+                        break;
+                }
+                StringBuilder errors = new StringBuilder();
+                if (errors.Length > 0)
+                {
+                    MessageBox.Show(errors.ToString());
+                    return;
+                }
+                Tag tag = new Tag
+                {
+                    ID = db.Tag.Any() ? db.Tag.Max(t => t.ID) + 1 : 1,
+                    Title = TagName,
+                    Color = TagColor
+                };
+                client.Tag.Add(tag);
+                db.SaveChanges();
+                tbTitleTag.Text = ""; tbColorTag.Text = "";
+                LViewTags.ItemsSource = client.Tags;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

@@ -166,9 +166,11 @@
 
 
                     <Button Grid.Column="0" x:Name="btnAddTag" Content="Добавить тег" HorizontalAlignment="Right"  Cursor="Hand" VerticalAlignment="Center" Click="btnAddTag_Click" BorderBrush="White" Background="#04A0FF"  Foreground="White" Width="80" Height="46" Margin="5,0,0,0"/>
+
                 </StackPanel>
             </Grid>
             <Button Grid.Row="3" x:Name="btnDelTag" Content="Удалить" HorizontalAlignment="Right" Cursor="Hand" VerticalAlignment="Top" Click="btnDelTag_Click" BorderBrush="White" Background="#04A0FF"  Foreground="White" Width="150" Height="30" Margin="0,0,15,0"/>
+            <ComboBox x:Name="Static_tag" Margin="0,291,165,206" Grid.RowSpan="2" Grid.Row="2" SelectionChanged="Static_tag_SelectionChanged"/>
         </Grid>
     </Grid>
 </Window>

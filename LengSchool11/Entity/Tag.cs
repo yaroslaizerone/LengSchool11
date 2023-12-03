@@ -26,5 +26,13 @@ namespace LengSchool11.Entity
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Client> Client { get; set; }
+
+        public string Background
+        {
+            get
+            {
+                return "#" + this.Color;
+            }
+        }
     }
 }

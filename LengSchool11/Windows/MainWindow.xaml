@@ -18,7 +18,7 @@
                 <RowDefinition Height="334*"/>
                 <RowDefinition Height="31*"></RowDefinition>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Background="#04A0FF" Height="auto" Width="800" Grid.ColumnSpan="2" HorizontalAlignment="Right"/>
+            <StackPanel Grid.Row="0" Background="#04A0FF" Height="auto" Grid.ColumnSpan="2"/>
             <Image Margin="5" Source="/Resourses/Icon/school_logo.png"/>
             <Frame Grid.Row="1" x:Name="frame" Height="auto" Width="auto" LoadCompleted="frame_LoadCompleted" Margin="0,1,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
 
